@@ -19,6 +19,9 @@
 #endif
 
 #include "afxipw.h"
+#include "MainFrm.h"
+#include "ImageMat.h"
+#include "ipl.h"
 
 // CipwDoc
 
@@ -58,6 +61,20 @@ void CipwDoc::SetImageMat(ImageMat* im)
 {
 	// TODO: Add your implementation code here.
 	m_pIm = im;
+}
+
+
+process_item CipwDoc::GetProcessItem()
+{
+	// TODO: Add your implementation code here.
+	return m_processItem;
+}
+
+
+void CipwDoc::SetProcessItem(process_item item)
+{
+	// TODO: Add your implementation code here.
+	m_processItem = item;
 }
 
 
@@ -189,6 +206,18 @@ BOOL CipwDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	//AfxInform(_T("%d"), mat.channels());
 	//AfxInform(_T("%hs"), __FUNCTION__);
 	//ipl_display_cv_window("TEST WINDOW", mat);
+
+	CString filename = CString(lpszPathName).Mid(CString(lpszPathName).ReverseFind('\\') + 1);
+	int countProcess = ((CipwApp*)AfxGetApp())->GetCountProcess();
+	SetProcessItem({filename, countProcess, _T("Open"), -1, -1, nullptr});
+	((CipwApp*)AfxGetApp())->IncreaseCountProcess();
+
+	CMainFrame* mainFrame = (CMainFrame*)AfxGetMainWnd();
+	CString titleWnd = AfxStringFormat(_T("%s : %d"), filename, countProcess);
+	mainFrame->m_wndProperties.SetOpenPropList(titleWnd, CString(lpszPathName));
+	mainFrame->m_wndProperties.EnableDocking(CBRS_ALIGN_ANY);
+	mainFrame->DockPane(&mainFrame->m_wndProperties);
+
 	m_pIm->SetMat(mat);
 
 	return TRUE;

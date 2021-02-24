@@ -4,9 +4,16 @@
 
 
 #pragma once
-#include "ImageMat.h"
-#include "ipl.h"
 
+
+typedef struct _process_item {
+	CString name;
+	int number;
+	CString process;
+	int previous;
+	int next;
+	void* option;
+} process_item;
 
 class CipwDoc : public CDocument
 {
@@ -52,6 +59,11 @@ protected:
 public:
 	ImageMat* GetImageMat();
 	void SetImageMat(ImageMat* im);
+protected:
+	process_item m_processItem;
+public:
+	process_item GetProcessItem();
+	void SetProcessItem(process_item item);
 public:
 	virtual BOOL OnOpenDocument(LPCTSTR lpszPathName);
 	afx_msg void OnImageInvert();
