@@ -29,3 +29,15 @@ void AfxInform(LPCTSTR lpszFormat, ...)
 
 	AfxInform(message);
 }
+
+CString AfxStringFormat(LPCTSTR lpszFormat, ...)
+{
+	CString str;
+
+	va_list argList;
+	va_start(argList, lpszFormat);
+	str.FormatV(lpszFormat, argList);
+	va_end(argList);
+
+	return str;
+}
