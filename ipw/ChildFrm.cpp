@@ -37,6 +37,8 @@ BOOL CChildFrame::PreCreateWindow(CREATESTRUCT& cs)
 	if( !CMDIChildWndEx::PreCreateWindow(cs) )
 		return FALSE;
 
+	cs.style &= ~(LONG)FWS_ADDTOTITLE;
+
 	return TRUE;
 }
 

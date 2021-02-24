@@ -13,10 +13,13 @@
 #include "MainFrm.h"
 #include "ipwDoc.h"
 #include "ipwView.h"
+#include "ImageMat.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
+
+#include "afxipw.h"
 
 // CipwView
 
@@ -82,6 +85,12 @@ void CipwView::OnInitialUpdate()
 		sizeTotal.cx = pIm->GetMat().cols;
 		sizeTotal.cy = pIm->GetMat().rows;
 	}
+
+	CipwDoc* pDoc = GetDocument();
+	CString filename = pDoc->GetProcessItem().name;
+	int countProcess = pDoc->GetProcessItem().number;
+	CString titleWnd = AfxStringFormat(_T("%s : %d"), filename, countProcess);
+	GetParent()->SetWindowTextW(titleWnd);
 
 	SetScrollSizes(MM_TEXT, sizeTotal);
 	ResizeParentToFit(FALSE);
