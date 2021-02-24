@@ -56,8 +56,8 @@ int ipl_function_adjust_intensity_bgr(uchar* mat_data, int row, int column, int 
     return 0;
 }
 
-int ipl_adjust_intensity_gray(cv::Mat& mat_out, cv::Mat& mat_in,
-    iplp_coefficient gray,
+int ipl_adjust_intensity_wk(cv::Mat& mat_out, cv::Mat& mat_in,
+    iplp_coefficient wk,
     int(*method)(uchar*, int, int, int, iplp_coefficient)) {
     mat_out = mat_in.clone();
 
@@ -65,18 +65,17 @@ int ipl_adjust_intensity_gray(cv::Mat& mat_out, cv::Mat& mat_in,
     for (int row = 0; row < mat_out.rows; ++row) {
         for (int column = 0; column < mat_out.cols; ++column) {
             uchar* mat_data = mat_out.data;
-            method(mat_data, row, column, mat_out.cols, gray);
+            method(mat_data, row, column, mat_out.cols, wk);
         }
     }
 
     return 0;
 }
 
-int ipl_function_adjust_intensity_gray(uchar* mat_data, int row, int column, int columns,
-    iplp_coefficient gray) {
-    //GRAY = graya * gray + grayb
+int ipl_function_adjust_intensity_wk(uchar* mat_data, int row, int column, int columns,
+    iplp_coefficient wk) {
     int index = row * columns + column;
-    mat_data[index] = limit_intensity(gray.a * mat_data[index] + gray.b);
+    mat_data[index] = limit_intensity(wk.a * mat_data[index] + wk.b);
 
     return 0;
 }
@@ -151,8 +150,8 @@ int ipl_function_add_linear_intensity_bgr(uchar* mat_data, int row, int column, 
     return 0;
 }
 
-int ipl_add_linear_intensity_gray(cv::Mat& mat_out, cv::Mat& mat_in,
-    iplp_linearity gray,
+int ipl_add_linear_intensity_wk(cv::Mat& mat_out, cv::Mat& mat_in,
+    iplp_linearity wk,
     int(*method)(uchar*, int, int, int, iplp_linearity)) {
     mat_out = mat_in.clone();
 
@@ -160,20 +159,20 @@ int ipl_add_linear_intensity_gray(cv::Mat& mat_out, cv::Mat& mat_in,
     for (int row = 0; row < mat_out.rows; ++row) {
         for (int column = 0; column < mat_out.cols; ++column) {
             uchar* mat_data = mat_out.data;
-            method(mat_data, row, column, mat_out.cols, gray);
+            method(mat_data, row, column, mat_out.cols, wk);
         }
     }
 
     return 0;
 }
 
-int ipl_function_add_linear_intensity_gray(uchar* mat_data, int row, int column, int columns,
-    iplp_linearity gray) {
-    double positionGray = ((gray.bb - gray.ab) * (gray.bb - gray.ab) * gray.aa + (gray.ba - gray.aa) * (gray.ba - gray.aa) * column - (gray.ab - row) * (gray.ba - gray.aa) * (gray.bb - gray.ab)) / static_cast<double>((gray.bb - gray.ab) * (gray.bb - gray.ab) + (gray.ba - gray.aa) * (gray.ba - gray.aa));
-    double value_gray_add = (gray.B - gray.A) * (positionGray - gray.aa) / static_cast<double>(gray.ba - gray.aa) + gray.A;
+int ipl_function_add_linear_intensity_wk(uchar* mat_data, int row, int column, int columns,
+    iplp_linearity wk) {
+    double positionwk = ((wk.bb - wk.ab) * (wk.bb - wk.ab) * wk.aa + (wk.ba - wk.aa) * (wk.ba - wk.aa) * column - (wk.ab - row) * (wk.ba - wk.aa) * (wk.bb - wk.ab)) / static_cast<double>((wk.bb - wk.ab) * (wk.bb - wk.ab) + (wk.ba - wk.aa) * (wk.ba - wk.aa));
+    double value_wk_add = (wk.B - wk.A) * (positionwk - wk.aa) / static_cast<double>(wk.ba - wk.aa) + wk.A;
 
     int index = row * columns + column;
-    mat_data[index] = limit_intensity(mat_data[index] + value_gray_add);
+    mat_data[index] = limit_intensity(mat_data[index] + value_wk_add);
 
     return 0;
 }

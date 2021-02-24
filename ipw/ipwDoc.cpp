@@ -201,7 +201,7 @@ void CipwDoc::OnImageInvert()
 	cv::Mat mat;
 	if (m_pIm->GetMat().channels() == 1)
 	{
-		ipl_adjust_intensity_gray(mat, m_pIm->GetMat(), {-1, 255}, ipl_function_adjust_intensity_gray);
+		ipl_adjust_intensity_wk(mat, m_pIm->GetMat(), {-1, 255}, ipl_function_adjust_intensity_wk);
 	}
 	else if (m_pIm->GetMat().channels() == 3)
 	{
@@ -226,7 +226,7 @@ void CipwDoc::OnImageAddintensitylinear()
 	cv::Mat mat;
 	if (m_pIm->GetMat().channels() == 1)
 	{
-		ipl_add_linear_intensity_gray(mat, m_pIm->GetMat(), {20, 200, -100, 240, 10, 400}, ipl_function_add_linear_intensity_gray);
+		ipl_add_linear_intensity_wk(mat, m_pIm->GetMat(), {20, 200, -100, 240, 10, 400}, ipl_function_add_linear_intensity_wk);
 	}
 	else if (m_pIm->GetMat().channels() == 3)
 	{
