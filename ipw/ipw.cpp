@@ -12,6 +12,7 @@
 #include "ChildFrm.h"
 #include "ipwDoc.h"
 #include "ipwView.h"
+#include "ImageMat.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -150,6 +151,7 @@ BOOL CipwApp::InitInstance()
 	pMainFrame->UpdateWindow();
 
 	m_pIm = new ImageMat();
+	m_countProcess = 0;
 
 	return TRUE;
 }
@@ -245,4 +247,18 @@ void CipwApp::SetImageMat(ImageMat* im)
 {
 	// TODO: Add your implementation code here.
 	m_pIm = im;
+}
+
+
+int CipwApp::GetCountProcess()
+{
+	// TODO: Add your implementation code here.
+	return m_countProcess;
+}
+
+
+void CipwApp::IncreaseCountProcess()
+{
+	// TODO: Add your implementation code here.
+	m_countProcess++;
 }

@@ -42,6 +42,11 @@ protected:
 public:
 	ImageMat* GetImageMat();
 	void SetImageMat(ImageMat* im);
+protected:
+	int m_countProcess;
+public:
+	int GetCountProcess();
+	void IncreaseCountProcess();
 };
 
 extern CipwApp theApp;
