@@ -213,7 +213,7 @@ BOOL CipwDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	((CipwApp*)AfxGetApp())->IncreaseCountProcess();
 
 	CMainFrame* mainFrame = (CMainFrame*)AfxGetMainWnd();
-	CString titleWnd = AfxStringFormat(_T("%s : %d"), filename, countProcess);
+	CString titleWnd = AfxString(_T("%s : %d"), filename, countProcess);
 	mainFrame->m_wndProperties.SetOpenPropList(titleWnd, CString(lpszPathName));
 	mainFrame->m_wndProperties.EnableDocking(CBRS_ALIGN_ANY);
 	mainFrame->DockPane(&mainFrame->m_wndProperties);

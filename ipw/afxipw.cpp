@@ -30,7 +30,7 @@ void AfxInform(LPCTSTR lpszFormat, ...)
 	AfxInform(message);
 }
 
-CString AfxStringFormat(LPCTSTR lpszFormat, ...)
+CString AfxString(LPCTSTR lpszFormat, ...)
 {
 	CString str;
 

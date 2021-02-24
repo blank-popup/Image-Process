@@ -4,6 +4,6 @@
 void AfxDisplay(cv::Mat& mat);
 void AfxInform(CString message);
 void AfxInform(LPCTSTR lpszFormat, ...);
-CString AfxStringFormat(LPCTSTR lpszFormat, ...);
+CString AfxString(LPCTSTR lpszFormat, ...);
 
 #endif // __APX_IPW__
