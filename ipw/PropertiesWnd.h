@@ -58,5 +58,8 @@ protected:
 	void SetPropListFont();
 
 	int m_nComboHeight;
+public:
+	void SetCurrObjectCombo(CString item);
+	void SetOpenPropList(CString titleWnd, CString filepath);
 };
 
