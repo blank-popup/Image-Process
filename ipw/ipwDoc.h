@@ -10,9 +10,9 @@ typedef struct _process_item {
 	CString name;
 	int number;
 	CString process;
-	int previous;
-	int next;
-	void* option;
+	std::vector<int> previous;
+	std::vector<int> next;
+	std::vector<int> option;
 } process_item;
 
 class CipwDoc : public CDocument

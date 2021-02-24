@@ -209,7 +209,7 @@ BOOL CipwDoc::OnOpenDocument(LPCTSTR lpszPathName)
 
 	CString filename = CString(lpszPathName).Mid(CString(lpszPathName).ReverseFind('\\') + 1);
 	int countProcess = ((CipwApp*)AfxGetApp())->GetCountProcess();
-	SetProcessItem({filename, countProcess, _T("Open"), -1, -1, nullptr});
+	SetProcessItem({filename, countProcess, _T("Open"), {}, {}, {}});
 	((CipwApp*)AfxGetApp())->IncreaseCountProcess();
 
 	CMainFrame* mainFrame = (CMainFrame*)AfxGetMainWnd();
