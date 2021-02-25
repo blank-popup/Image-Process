@@ -203,8 +203,8 @@ BOOL CipwDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	// error in debug: __acrt_first_block == header
 	cv::Mat mat;
 	ipl_read_image(mat, filepath, -1);
-	//AfxInform(_T("%d"), mat.channels());
-	//AfxInform(_T("%hs"), __FUNCTION__);
+	//AfmInform(_T("%d"), mat.channels());
+	//AfmInform(_T("%hs"), __FUNCTION__);
 	//ipl_display_cv_window("TEST WINDOW", mat);
 
 	CString filename = CString(lpszPathName).Mid(CString(lpszPathName).ReverseFind('\\') + 1);
@@ -213,7 +213,7 @@ BOOL CipwDoc::OnOpenDocument(LPCTSTR lpszPathName)
 	((CipwApp*)AfxGetApp())->IncreaseCountProcess();
 
 	CMainFrame* mainFrame = (CMainFrame*)AfxGetMainWnd();
-	CString titleWnd = AfxString(_T("%s : %02d"), filename, countProcess);
+	CString titleWnd = AfmString(_T("%s : %02d"), filename, countProcess);
 	mainFrame->m_wndProperties.SetOpenPropList(titleWnd, CString(lpszPathName));
 	mainFrame->m_wndProperties.EnableDocking(CBRS_ALIGN_ANY);
 	mainFrame->DockPane(&mainFrame->m_wndProperties);
@@ -245,7 +245,7 @@ void CipwDoc::OnImageInvert()
 		return;
 	}
 
-	AfxDisplay(mat);
+	AfmDisplay(mat);
 }
 
 
@@ -270,5 +270,5 @@ void CipwDoc::OnImageAddintensitylinear()
 		return;
 	}
 
-	AfxDisplay(mat);
+	AfmDisplay(mat);
 }

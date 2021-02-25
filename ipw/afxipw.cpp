@@ -6,19 +6,19 @@
 #include "ImageMat.h"
 
 
-void AfxDisplay(cv::Mat& mat)
+void AfmDisplay(cv::Mat& mat)
 {
 	theApp.GetImageMat()->SetMat(mat);
 	AfxGetMainWnd()->SendMessage(WM_COMMAND, ID_FILE_NEW);
 }
 
-void AfxInform(CString message)
+void AfmInform(CString message)
 {
 	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 	pFrame->m_wndOutput.AddString(message);
 }
 
-void AfxInform(LPCTSTR lpszFormat, ...)
+void AfmInform(LPCTSTR lpszFormat, ...)
 {
 	CString message;
 
@@ -27,10 +27,10 @@ void AfxInform(LPCTSTR lpszFormat, ...)
 	message.FormatV(lpszFormat, argList);
 	va_end(argList);
 
-	AfxInform(message);
+	AfmInform(message);
 }
 
-CString AfxString(LPCTSTR lpszFormat, ...)
+CString AfmString(LPCTSTR lpszFormat, ...)
 {
 	CString str;
 
