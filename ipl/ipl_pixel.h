@@ -25,6 +25,9 @@ typedef struct _iplp_linearity {
 extern "C" {
 #endif
 
+    IPL_PORT int ipl_adjust_intensity(cv::Mat& mat_out, cv::Mat& mat_in, std::vector<std::vector<int>> coeffients);
+    IPL_PORT int ipl_add_linear_intensity(cv::Mat& mat_out, cv::Mat& mat_in, std::vector<std::vector<int>> coeffients);
+
     IPL_PORT int ipl_adjust_intensity_bgra(cv::Mat& mat_out, cv::Mat& mat_in,
         iplp_coefficient b, iplp_coefficient g, iplp_coefficient r, iplp_coefficient a,
         int(*method)(uchar*, int, int, int, iplp_coefficient, iplp_coefficient, iplp_coefficient, iplp_coefficient));

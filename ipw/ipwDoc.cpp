@@ -230,15 +230,15 @@ void CipwDoc::OnImageInvert()
 	cv::Mat mat;
 	if (m_pIm->GetMat().channels() == 1)
 	{
-		ipl_adjust_intensity_wk(mat, m_pIm->GetMat(), {-1, 255}, ipl_function_adjust_intensity_wk);
+		ipl_adjust_intensity(mat, m_pIm->GetMat(), {{-1, 255}});
 	}
 	else if (m_pIm->GetMat().channels() == 3)
 	{
-		ipl_adjust_intensity_bgr(mat, m_pIm->GetMat(), {-1, 255}, {-1, 255}, {-1, 255}, ipl_function_adjust_intensity_bgr);
+		ipl_adjust_intensity(mat, m_pIm->GetMat(), {{-1, 255}, {-1, 255}, {-1, 255}});
 	}
 	else if (m_pIm->GetMat().channels() == 4)
 	{
-		ipl_adjust_intensity_bgra(mat, m_pIm->GetMat(), {-1, 255}, {-1, 255}, {-1, 255}, {-1, 255}, ipl_function_adjust_intensity_bgra);
+		ipl_adjust_intensity(mat, m_pIm->GetMat(), {{-1, 255}, {-1, 255}, {-1, 255}, {-1, 255}});
 	}
 	else
 	{
@@ -255,15 +255,15 @@ void CipwDoc::OnImageAddintensitylinear()
 	cv::Mat mat;
 	if (m_pIm->GetMat().channels() == 1)
 	{
-		ipl_add_linear_intensity_wk(mat, m_pIm->GetMat(), {20, 200, -100, 240, 10, 400}, ipl_function_add_linear_intensity_wk);
+		ipl_add_linear_intensity(mat, m_pIm->GetMat(), {{20, 200, -100, 240, 10, 150}});
 	}
 	else if (m_pIm->GetMat().channels() == 3)
 	{
-		ipl_add_linear_intensity_bgr(mat, m_pIm->GetMat(), {20, 200, -100, 240, 10, 400}, {20, 200, -100, 240, 10, 400}, {20, 200, -100, 240, 10, 400}, ipl_function_add_linear_intensity_bgr);
+		ipl_add_linear_intensity(mat, m_pIm->GetMat(), {{20, 200, -100, 240, 10, 150}, {20, 200, -100, 240, 10, 150}, {20, 200, -100, 240, 10, 150}});
 	}
 	else if (m_pIm->GetMat().channels() == 4)
 	{
-		ipl_add_linear_intensity_bgra(mat, m_pIm->GetMat(), {20, 200, -100, 240, 10, 400}, {20, 200, -100, 240, 10, 400}, {20, 200, -100, 240, 10, 400}, {20, 200, -100, 240, 10, 400}, ipl_function_add_linear_intensity_bgra);
+		ipl_add_linear_intensity(mat, m_pIm->GetMat(), {{20, 200, -100, 240, 10, 150}, {20, 200, -100, 240, 10, 150}, {20, 200, -100, 240, 10, 150}, {20, 200, -100, 240, 10, 150}});
 	}
 	else
 	{
