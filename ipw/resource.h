@@ -87,7 +87,8 @@
 #define ID_IMAGE_INVERT                 32771
 #define ID_IMAGE_ADDINTENSITYLINEAR     32773
 
-#define IDU_BUTTON_PROCESS              10000
+#define IDU_BUTTON_PROCESS_NEW_WINDOW           10000
+#define IDU_BUTTON_PROCESS_EXISTING_WINDOW      10001
 
 // Next default values for new objects
 // 

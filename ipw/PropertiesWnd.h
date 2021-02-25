@@ -33,7 +33,8 @@ protected:
 	CComboBox m_wndObjectCombo;
 	CPropertiesToolBar m_wndToolBar;
 	CMFCPropertyGridCtrl m_wndPropList;
-	CButton m_buttonProcess;
+	CButton m_buttonProcessNewWindow;
+	CButton m_buttonProcessExistingWindow;
 
 // Implementation
 public:
@@ -52,9 +53,10 @@ protected:
 	afx_msg void OnUpdateProperties2(CCmdUI* pCmdUI);
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
 	afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
-	afx_msg void OnButtonProcess();
-	afx_msg void OnUpdateButtonProcess(CCmdUI* pCmdUI);
-
+	afx_msg void OnButtonProcessNewWindow();
+	afx_msg void OnUpdateButtonProcessNewWindow(CCmdUI* pCmdUI);
+	afx_msg void OnButtonProcessExistingWindow();
+	afx_msg void OnUpdateButtonProcessExistingWindow(CCmdUI* pCmdUI);
 
 	DECLARE_MESSAGE_MAP()
 

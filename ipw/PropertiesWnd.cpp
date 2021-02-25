@@ -6,6 +6,9 @@
 #include "Resource.h"
 #include "MainFrm.h"
 #include "ipw.h"
+#include "afxipw.h"
+#include "ipwDoc.h"
+#include "ImageMat.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -38,8 +41,10 @@ BEGIN_MESSAGE_MAP(CPropertiesWnd, CDockablePane)
 	ON_UPDATE_COMMAND_UI(ID_PROPERTIES2, OnUpdateProperties2)
 	ON_WM_SETFOCUS()
 	ON_WM_SETTINGCHANGE()
-	ON_BN_CLICKED(IDU_BUTTON_PROCESS, OnButtonProcess)
-	ON_UPDATE_COMMAND_UI(IDU_BUTTON_PROCESS, OnUpdateButtonProcess)
+	ON_BN_CLICKED(IDU_BUTTON_PROCESS_NEW_WINDOW, OnButtonProcessNewWindow)
+	ON_UPDATE_COMMAND_UI(IDU_BUTTON_PROCESS_NEW_WINDOW, OnUpdateButtonProcessNewWindow)
+	ON_BN_CLICKED(IDU_BUTTON_PROCESS_EXISTING_WINDOW, OnButtonProcessExistingWindow)
+	ON_UPDATE_COMMAND_UI(IDU_BUTTON_PROCESS_EXISTING_WINDOW, OnUpdateButtonProcessExistingWindow)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -60,18 +65,29 @@ void CPropertiesWnd::AdjustLayout()
 
 	m_wndObjectCombo.SetWindowPos(nullptr, rectClient.left, rectClient.top, rectClient.Width(), m_nComboHeight, SWP_NOACTIVATE | SWP_NOZORDER);
 	m_wndToolBar.SetWindowPos(nullptr, rectClient.left, rectClient.top + m_nComboHeight, rectClient.Width(), cyTlb, SWP_NOACTIVATE | SWP_NOZORDER);
-	m_wndPropList.SetWindowPos(nullptr, rectClient.left, rectClient.top + m_nComboHeight + cyTlb, rectClient.Width(), rectClient.Height() -(m_nComboHeight + cyTlb + cyButton), SWP_NOACTIVATE | SWP_NOZORDER);
+	m_wndPropList.SetWindowPos(nullptr, rectClient.left, rectClient.top + m_nComboHeight + cyTlb, rectClient.Width(), rectClient.Height() -(m_nComboHeight + cyTlb + 2 * cyButton), SWP_NOACTIVATE | SWP_NOZORDER);
 
-	if (m_buttonProcess.GetSafeHwnd() == nullptr)
+	if (m_buttonProcessNewWindow.GetSafeHwnd() == nullptr)
 	{
-		m_buttonProcess.Create(_T("Process"), WS_CHILD | WS_VISIBLE, CRect(rectClient.left, rectClient.Height() - cyButton, rectClient.Width(), rectClient.Height()), this, IDU_BUTTON_PROCESS);
+		m_buttonProcessNewWindow.Create(_T("Process in New Window"), WS_CHILD | WS_VISIBLE, CRect(rectClient.left, rectClient.Height() - 2 * cyButton, rectClient.Width(), rectClient.Height() - cyButton), this, IDU_BUTTON_PROCESS_NEW_WINDOW);
 	}
 	else
 	{
-		m_buttonProcess.SetWindowPos(nullptr, rectClient.left, rectClient.Height() - cyButton, rectClient.Width(), cyButton, SWP_NOACTIVATE | SWP_NOZORDER);
+		m_buttonProcessNewWindow.SetWindowPos(nullptr, rectClient.left, rectClient.Height() - 2 * cyButton, rectClient.Width(), cyButton, SWP_NOACTIVATE | SWP_NOZORDER);
 	}
-	m_buttonProcess.ShowWindow(SW_SHOW);
-	m_buttonProcess.EnableWindow(TRUE);
+	m_buttonProcessNewWindow.ShowWindow(SW_SHOW);
+	m_buttonProcessNewWindow.EnableWindow(TRUE);
+
+	if (m_buttonProcessExistingWindow.GetSafeHwnd() == nullptr)
+	{
+		m_buttonProcessExistingWindow.Create(_T("Process in Existing Window"), WS_CHILD | WS_VISIBLE, CRect(rectClient.left, rectClient.Height() - cyButton, rectClient.Width(), rectClient.Height()), this, IDU_BUTTON_PROCESS_EXISTING_WINDOW);
+	}
+	else
+	{
+		m_buttonProcessExistingWindow.SetWindowPos(nullptr, rectClient.left, rectClient.Height() - cyButton, rectClient.Width(), cyButton, SWP_NOACTIVATE | SWP_NOZORDER);
+	}
+	m_buttonProcessExistingWindow.ShowWindow(SW_SHOW);
+	m_buttonProcessExistingWindow.EnableWindow(TRUE);
 }
 
 int CPropertiesWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -217,25 +233,62 @@ void CPropertiesWnd::SetPropListFont()
 }
 
 
-void CPropertiesWnd::OnButtonProcess()
+void CPropertiesWnd::OnButtonProcessNewWindow()
 {
 	// TODO: Add your implementation code here.
 	CString command;
 	m_wndObjectCombo.GetLBText(m_wndObjectCombo.GetCurSel(), command);
 
 	std::vector<CString> titles = {};
-	((CipwApp*)AfxGetApp())->GetChildWindowTitles(titles);
+	AfmGetChildWindowTitles(titles);
 
 	if (command.Compare(_T("Open")) == 0)
 	{
-		for (int i = 0; i < titles.size(); ++i)
-		{
-			AfxMessageBox(titles[i]);
-		}
+		//CString tt;
+		//((CMDIFrameWnd*)AfxGetMainWnd())->GetActiveFrame()->GetWindowTextW(tt);
+		//AfxMessageBox(tt);
+		//CipwDoc* tt = AfmFindDocument(titles[2]);
+		//cv::Mat aa = tt->GetImageMat()->GetMat();
+		AfxMessageBox(AfmString(_T("NNNNNNNNNNNN")));
+
+		//for (int i = 0; i < titles.size(); ++i)
+		//{
+		//	AfxMessageBox(titles[i]);
+		//}
 	}
 }
 
-void CPropertiesWnd::OnUpdateButtonProcess(CCmdUI* pCmdUI)
+void CPropertiesWnd::OnUpdateButtonProcessNewWindow(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable();
+}
+
+void CPropertiesWnd::OnButtonProcessExistingWindow()
+{
+	// TODO: Add your implementation code here.
+	CString command;
+	m_wndObjectCombo.GetLBText(m_wndObjectCombo.GetCurSel(), command);
+
+	std::vector<CString> titles = {};
+	AfmGetChildWindowTitles(titles);
+
+	if (command.Compare(_T("Open")) == 0)
+	{
+		//CString tt;
+		//((CMDIFrameWnd*)AfxGetMainWnd())->GetActiveFrame()->GetWindowTextW(tt);
+		//AfxMessageBox(tt);
+		//CipwDoc* tt = AfmFindDocument(titles[2]);
+		//cv::Mat aa = tt->GetImageMat()->GetMat();
+		AfxMessageBox(AfmString(_T("EEEEEEEEEEEEEEEEEEEEE")));
+
+		//for (int i = 0; i < titles.size(); ++i)
+		//{
+		//	AfxMessageBox(titles[i]);
+		//}
+	}
+}
+
+void CPropertiesWnd::OnUpdateButtonProcessExistingWindow(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable();
 }
