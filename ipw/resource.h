@@ -87,6 +87,8 @@
 #define ID_IMAGE_INVERT                 32771
 #define ID_IMAGE_ADDINTENSITYLINEAR     32773
 
+#define IDU_BUTTON_PROCESS              10000
+
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED

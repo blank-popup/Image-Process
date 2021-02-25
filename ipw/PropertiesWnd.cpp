@@ -38,6 +38,8 @@ BEGIN_MESSAGE_MAP(CPropertiesWnd, CDockablePane)
 	ON_UPDATE_COMMAND_UI(ID_PROPERTIES2, OnUpdateProperties2)
 	ON_WM_SETFOCUS()
 	ON_WM_SETTINGCHANGE()
+	ON_BN_CLICKED(IDU_BUTTON_PROCESS, OnButtonProcess)
+	ON_UPDATE_COMMAND_UI(IDU_BUTTON_PROCESS, OnUpdateButtonProcess)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -54,10 +56,23 @@ void CPropertiesWnd::AdjustLayout()
 	GetClientRect(rectClient);
 
 	int cyTlb = m_wndToolBar.CalcFixedLayout(FALSE, TRUE).cy;
+	int cyButton = 20;
 
 	m_wndObjectCombo.SetWindowPos(nullptr, rectClient.left, rectClient.top, rectClient.Width(), m_nComboHeight, SWP_NOACTIVATE | SWP_NOZORDER);
 	m_wndToolBar.SetWindowPos(nullptr, rectClient.left, rectClient.top + m_nComboHeight, rectClient.Width(), cyTlb, SWP_NOACTIVATE | SWP_NOZORDER);
-	m_wndPropList.SetWindowPos(nullptr, rectClient.left, rectClient.top + m_nComboHeight + cyTlb, rectClient.Width(), rectClient.Height() -(m_nComboHeight+cyTlb), SWP_NOACTIVATE | SWP_NOZORDER);
+	m_wndPropList.SetWindowPos(nullptr, rectClient.left, rectClient.top + m_nComboHeight + cyTlb, rectClient.Width(), rectClient.Height() -(m_nComboHeight + cyTlb + cyButton), SWP_NOACTIVATE | SWP_NOZORDER);
+
+	if (m_buttonProcess.GetSafeHwnd() == nullptr)
+	{
+		m_buttonProcess.Create(_T("Process"), WS_CHILD | WS_VISIBLE, CRect(rectClient.left, rectClient.Height() - cyButton, rectClient.Width(), rectClient.Height()), this, IDU_BUTTON_PROCESS);
+	}
+	else
+	{
+		m_buttonProcess.SetWindowPos(nullptr, rectClient.left, rectClient.Height() - cyButton, rectClient.Width(), cyButton, SWP_NOACTIVATE | SWP_NOZORDER);
+	}
+	m_buttonProcess.ShowWindow(SW_SHOW);
+	m_buttonProcess.EnableWindow(TRUE);
+	//m_buttonProcess.SetWindowPos(nullptr, rectClient.left, rectClient.top - cyButton, rectClient.Width(), cyButton, SWP_NOACTIVATE | SWP_NOZORDER);
 }
 
 int CPropertiesWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -165,6 +180,7 @@ void CPropertiesWnd::InitPropList()
 	m_wndPropList.EnableDescriptionArea();
 	m_wndPropList.SetVSDotNetLook();
 	m_wndPropList.MarkModifiedProperties();
+
 }
 
 void CPropertiesWnd::OnSetFocus(CWnd* pOldWnd)
@@ -202,6 +218,18 @@ void CPropertiesWnd::SetPropListFont()
 }
 
 
+void CPropertiesWnd::OnButtonProcess()
+{
+	// TODO: Add your implementation code here.
+	AfxMessageBox(_T("Buuton in Property window"));
+}
+
+void CPropertiesWnd::OnUpdateButtonProcess(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable();
+}
+
+
 void CPropertiesWnd::SetCurrObjectCombo(CString item)
 {
 	// TODO: Add your implementation code here.
@@ -225,5 +253,4 @@ void CPropertiesWnd::SetOpenPropList(CString titleWnd, CString filepath)
 	pOutput->AddSubItem(new CMFCPropertyGridProperty(_T("Window"), (_variant_t)titleWnd, _T("Window title")));
 	m_wndPropList.AddProperty(pOutput);
 }
-
 
