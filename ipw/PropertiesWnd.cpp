@@ -72,7 +72,6 @@ void CPropertiesWnd::AdjustLayout()
 	}
 	m_buttonProcess.ShowWindow(SW_SHOW);
 	m_buttonProcess.EnableWindow(TRUE);
-	//m_buttonProcess.SetWindowPos(nullptr, rectClient.left, rectClient.top - cyButton, rectClient.Width(), cyButton, SWP_NOACTIVATE | SWP_NOZORDER);
 }
 
 int CPropertiesWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -221,7 +220,19 @@ void CPropertiesWnd::SetPropListFont()
 void CPropertiesWnd::OnButtonProcess()
 {
 	// TODO: Add your implementation code here.
-	AfxMessageBox(_T("Buuton in Property window"));
+	CString command;
+	m_wndObjectCombo.GetLBText(m_wndObjectCombo.GetCurSel(), command);
+
+	std::vector<CString> titles = {};
+	((CipwApp*)AfxGetApp())->GetChildWindowTitles(titles);
+
+	if (command.Compare(_T("Open")) == 0)
+	{
+		for (int i = 0; i < titles.size(); ++i)
+		{
+			AfxMessageBox(titles[i]);
+		}
+	}
 }
 
 void CPropertiesWnd::OnUpdateButtonProcess(CCmdUI* pCmdUI)

@@ -262,3 +262,29 @@ void CipwApp::IncreaseCountProcess()
 	// TODO: Add your implementation code here.
 	m_countProcess++;
 }
+
+
+void CipwApp::GetChildWindowTitles(std::vector<CString>& titles)
+{
+	// TODO: Add your implementation code here.
+	CipwApp* pApp = (CipwApp*)AfxGetApp();
+	POSITION positionDocTemplate = pApp->GetFirstDocTemplatePosition();
+	while (positionDocTemplate != nullptr)
+	{
+		CDocTemplate* pDocTemplate = pApp->GetNextDocTemplate(positionDocTemplate);
+		POSITION positionDoc = pDocTemplate->GetFirstDocPosition();
+		while (positionDoc != nullptr)
+		{
+			CipwDoc* pDoc = (CipwDoc*)pDocTemplate->GetNextDoc(positionDoc);
+			POSITION positionView = pDoc->GetFirstViewPosition();
+			while (positionView != nullptr)
+			{
+				CipwView* pView = (CipwView*)pDoc->GetNextView(positionView);
+				CString title;
+				pView->GetParentFrame()->GetWindowTextW(title);
+				titles.push_back(title);
+			}
+		}
+	}
+}
+
