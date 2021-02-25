@@ -24,6 +24,11 @@ ImageMat::~ImageMat()
 
 ImageMat& ImageMat::operator=(const ImageMat& im)
 {
+	if (this == &im)
+	{
+		return *this;
+	}
+
     ImageMat* newim = new ImageMat();
     newim->m_mat = im.m_mat.clone();
     return *newim;
