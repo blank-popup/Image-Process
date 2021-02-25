@@ -47,8 +47,6 @@ protected:
 public:
 	int GetCountProcess();
 	void IncreaseCountProcess();
-public:
-	void GetChildWindowTitles(std::vector<CString>& titles);
 };
 
 extern CipwApp theApp;
