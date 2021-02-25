@@ -1,10 +1,23 @@
 #ifndef __APX_IPW__
 #define __APX_IPW__
 
+#include "pch.h"
+#include "ipw.h"
+#include "MainFrm.h"
+
+#include "ChildFrm.h"
+#include "ipwDoc.h"
+#include "ipwView.h"
+#include "ImageMat.h"
+
 void AfmDisplay(cv::Mat& mat);
 void AfmInform(CString message);
 void AfmInform(LPCTSTR lpszFormat, ...);
 CString AfmString(LPCTSTR lpszFormat, ...);
-void GetChildWindowTitles(std::vector<CString>& titles);
+void AfmGetChildWindowTitles(std::vector<CString>& titles);
+CChildFrame* AfmGetActiveFrame();
+CipwView* AfmGetActiveView();
+CipwDoc* AfmGetActiveDocument();
+CipwDoc* AfmFindDocument(CString title);
 
 #endif // __APX_IPW__

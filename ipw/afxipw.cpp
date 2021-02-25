@@ -1,11 +1,5 @@
 #include "pch.h"
-#include "ipw.h"
-#include "MainFrm.h"
-
 #include "afxipw.h"
-#include "ipwDoc.h"
-#include "ipwView.h"
-#include "ImageMat.h"
 
 
 void AfmDisplay(cv::Mat& mat)
@@ -44,9 +38,8 @@ CString AfmString(LPCTSTR lpszFormat, ...)
 	return str;
 }
 
-void GetChildWindowTitles(std::vector<CString>& titles)
+void AfmGetChildWindowTitles(std::vector<CString>& titles)
 {
-	// TODO: Add your implementation code here.
 	CipwApp* pApp = (CipwApp*)AfxGetApp();
 	POSITION positionDocTemplate = pApp->GetFirstDocTemplatePosition();
 	while (positionDocTemplate != nullptr)
@@ -68,3 +61,51 @@ void GetChildWindowTitles(std::vector<CString>& titles)
 	}
 }
 
+CChildFrame* AfmGetActiveFrame()
+{
+	//In sub thread, use "AfxGetApp()->m_pMainWnd" instead of "AfxGetMainWnd()"
+	CMainFrame* pMainFrame= (CMainFrame*)AfxGetMainWnd();
+	return (CChildFrame*)pMainFrame->GetActiveFrame();
+}
+
+CipwView* AfmGetActiveView()
+{
+	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
+	CChildFrame* pChildFrame = (CChildFrame*)pMainFrame->GetActiveFrame();
+	return (CipwView*)pChildFrame->GetActiveView();
+}
+
+CipwDoc* AfmGetActiveDocument()
+{
+	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
+	CChildFrame* pChildFrame = (CChildFrame*)pMainFrame->GetActiveFrame();
+	return (CipwDoc*)pChildFrame->GetActiveDocument();
+}
+
+CipwDoc* AfmFindDocument(CString title)
+{
+	CipwApp* pApp = (CipwApp*)AfxGetApp();
+	POSITION positionDocTemplate = pApp->GetFirstDocTemplatePosition();
+	while (positionDocTemplate != nullptr)
+	{
+		CDocTemplate* pDocTemplate = pApp->GetNextDocTemplate(positionDocTemplate);
+		POSITION positionDoc = pDocTemplate->GetFirstDocPosition();
+		while (positionDoc != nullptr)
+		{
+			CipwDoc* pDoc = (CipwDoc*)pDocTemplate->GetNextDoc(positionDoc);
+			POSITION positionView = pDoc->GetFirstViewPosition();
+			while (positionView != nullptr)
+			{
+				CipwView* pView = (CipwView*)pDoc->GetNextView(positionView);
+				CString titleView;
+				pView->GetParentFrame()->GetWindowTextW(titleView);
+				if (title.Compare(titleView) == 0)
+				{
+					return (CipwDoc*)pView->GetDocument();
+				}
+			}
+		}
+	}
+
+	return nullptr;
+}
