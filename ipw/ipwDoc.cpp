@@ -209,12 +209,13 @@ BOOL CipwDoc::OnOpenDocument(LPCTSTR lpszPathName)
 
 	CString filename = CString(lpszPathName).Mid(CString(lpszPathName).ReverseFind('\\') + 1);
 	int countProcess = ((CipwApp*)AfxGetApp())->GetCountProcess();
-	SetProcessItem({filename, countProcess, _T("Open"), {}, {}, {}});
+	SetProcessItem({countProcess, filename, _T("Open"), {}, {}, {}});
 	((CipwApp*)AfxGetApp())->IncreaseCountProcess();
 
 	CMainFrame* mainFrame = (CMainFrame*)AfxGetMainWnd();
-	CString titleWnd = AfmString(_T("%s : %02d"), filename, countProcess);
+	CString titleWnd = AfmString(_T("%d _ %s"), countProcess, filename);
 	mainFrame->m_wndProperties.SetOpenPropList(titleWnd, CString(lpszPathName));
+
 	mainFrame->m_wndProperties.EnableDocking(CBRS_ALIGN_ANY);
 	mainFrame->DockPane(&mainFrame->m_wndProperties);
 
@@ -245,7 +246,7 @@ void CipwDoc::OnImageInvert()
 		return;
 	}
 
-	AfmDisplay(mat);
+	AfmDisplayNew(mat);
 }
 
 
@@ -270,5 +271,5 @@ void CipwDoc::OnImageAddintensitylinear()
 		return;
 	}
 
-	AfmDisplay(mat);
+	AfmDisplayNew(mat);
 }

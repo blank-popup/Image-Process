@@ -87,9 +87,9 @@ void CipwView::OnInitialUpdate()
 	}
 
 	CipwDoc* pDoc = GetDocument();
+	int countProcess = pDoc->GetProcessItem().id;
 	CString filename = pDoc->GetProcessItem().name;
-	int countProcess = pDoc->GetProcessItem().number;
-	CString titleWnd = AfmString(_T("%s : %02d"), filename, countProcess);
+	CString titleWnd = AfmString(_T("%d _ %s"), countProcess, filename);
 	GetParent()->SetWindowTextW(titleWnd);
 
 	SetScrollSizes(MM_TEXT, sizeTotal);

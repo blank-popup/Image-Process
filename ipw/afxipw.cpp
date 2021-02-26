@@ -2,7 +2,7 @@
 #include "afxipw.h"
 
 
-void AfmDisplay(cv::Mat& mat)
+void AfmDisplayNew(cv::Mat& mat)
 {
 	theApp.GetImageMat()->SetMat(mat);
 	AfxGetMainWnd()->SendMessage(WM_COMMAND, ID_FILE_NEW);

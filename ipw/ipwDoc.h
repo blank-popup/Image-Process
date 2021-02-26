@@ -7,12 +7,12 @@
 
 
 typedef struct _process_item {
+	int id;
 	CString name;
-	int number;
 	CString process;
+	std::vector<int> option;
 	std::vector<int> previous;
 	std::vector<int> next;
-	std::vector<int> option;
 } process_item;
 
 class CipwDoc : public CDocument

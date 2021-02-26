@@ -10,7 +10,7 @@
 #include "ipwView.h"
 #include "ImageMat.h"
 
-void AfmDisplay(cv::Mat& mat);
+void AfmDisplayNew(cv::Mat& mat);
 void AfmInform(CString message);
 void AfmInform(LPCTSTR lpszFormat, ...);
 CString AfmString(LPCTSTR lpszFormat, ...);
