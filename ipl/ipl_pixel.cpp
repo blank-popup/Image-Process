@@ -3,15 +3,17 @@
 #include "ipl_pixel.h"
 
 
-int ipl_adjust_intensity(cv::Mat& mat_out, cv::Mat& mat_in, std::vector<std::vector<int>> coefficients) {
+int ipl_adjust_intensity(cv::Mat& mat_out, cv::Mat& mat_in, std::vector<std::vector<int>> ce) {
     mat_out = mat_in.clone();
 
     uchar* mat_data = mat_out.data;
-    for (int row = 0; row < mat_out.rows; ++row) {
-        for (int column = 0; column < mat_out.cols; ++column) {
-            int index = (row * mat_out.cols + column) * coefficients.size();
-            for (int channel = 0; channel < coefficients.size(); ++channel) {
-                mat_data[index + channel] = limit_intensity(coefficients[channel][0] * mat_data[index + channel] + coefficients[channel][1]);
+    for (int r = 0; r < mat_out.rows; ++r) {
+        for (int c = 0; c < mat_out.cols; ++c) {
+            int i = (r * mat_out.cols + c) * ce.size();
+            for (int ch = 0; ch < ce.size(); ++ch) {
+                mat_data[i + ch] = limit_intensity(
+                                        ce[ch][0] * mat_data[i + ch] + ce[ch][1]
+                                    );
             }
         }
     }
@@ -20,23 +22,42 @@ int ipl_adjust_intensity(cv::Mat& mat_out, cv::Mat& mat_in, std::vector<std::vec
 }
 
 
-int ipl_add_linear_intensity(cv::Mat& mat_out, cv::Mat& mat_in, std::vector<std::vector<int>> coefficients) {
+int ipl_add_linear_intensity(cv::Mat& mat_out, cv::Mat& mat_in, std::vector<std::vector<int>> ce) {
     mat_out = mat_in.clone();
 
     uchar* mat_data = mat_out.data;
-    for (int row = 0; row < mat_out.rows; ++row) {
-        for (int column = 0; column < mat_out.cols; ++column) {
-            int index = (row * mat_out.cols + column) * coefficients.size();
-            for (int channel = 0; channel < coefficients.size(); ++channel) {
-                double position = ((coefficients[channel][4] - coefficients[channel][1]) * (coefficients[channel][4] - coefficients[channel][1]) * coefficients[channel][0] + (coefficients[channel][3] - coefficients[channel][0]) * (coefficients[channel][3] - coefficients[channel][0]) * column - (coefficients[channel][1] - row) * (coefficients[channel][3] - coefficients[channel][0]) * (coefficients[channel][4] - coefficients[channel][1])) / static_cast<double>((coefficients[channel][4] - coefficients[channel][1]) * (coefficients[channel][4] - coefficients[channel][1]) + (coefficients[channel][3] - coefficients[channel][0]) * (coefficients[channel][3] - coefficients[channel][0]));
-                double weight = (coefficients[channel][5] - coefficients[channel][2]) * (position - coefficients[channel][0]) / static_cast<double>(coefficients[channel][3] - coefficients[channel][0]) + coefficients[channel][2];
-                mat_data[index + channel] = limit_intensity(mat_data[index + channel] + weight);
+    for (int r = 0; r < mat_out.rows; ++r) {
+        for (int c = 0; c < mat_out.cols; ++c) {
+            int i = (r * mat_out.cols + c) * ce.size();
+            for (int ch = 0; ch < ce.size(); ++ch) {
+                double px = (
+                                (ce[ch][4] - ce[ch][1]) * (ce[ch][4] - ce[ch][1]) * ce[ch][0]
+                                + (ce[ch][3] - ce[ch][0]) * (ce[ch][3] - ce[ch][0]) * c
+                                - (ce[ch][1] - r) * (ce[ch][3] - ce[ch][0]) * (ce[ch][4] - ce[ch][1])
+                            )
+                        / 
+                            static_cast<double>(
+                                (ce[ch][4] - ce[ch][1]) * (ce[ch][4] - ce[ch][1])
+                                + (ce[ch][3] - ce[ch][0]) * (ce[ch][3] - ce[ch][0])
+                            );
+                double w = (ce[ch][5] - ce[ch][2]) * (px - ce[ch][0])
+                        /
+                            static_cast<double>(
+                                ce[ch][3] - ce[ch][0] + ce[ch][2]
+                            );
+                mat_data[i + ch] = limit_intensity(
+                                        mat_data[i + ch] + w
+                                    );
             }
         }
     }
 
     return 0;
 }
+
+
+
+
 
 
 int ipl_adjust_intensity_bgra(cv::Mat& mat_out, cv::Mat& mat_in,
