@@ -82,7 +82,8 @@ CipwDoc* AfmGetActiveDocument()
 	return (CipwDoc*)pChildFrame->GetActiveDocument();
 }
 
-CipwDoc* AfmFindDocument(CString title)
+
+CipwDoc* AfmFindDocument(int id)
 {
 	CipwApp* pApp = (CipwApp*)AfxGetApp();
 	POSITION positionDocTemplate = pApp->GetFirstDocTemplatePosition();
@@ -97,9 +98,7 @@ CipwDoc* AfmFindDocument(CString title)
 			while (positionView != nullptr)
 			{
 				CipwView* pView = (CipwView*)pDoc->GetNextView(positionView);
-				CString titleView;
-				pView->GetParentFrame()->GetWindowTextW(titleView);
-				if (title.Compare(titleView) == 0)
+				if (id == AfmGetId(pView))
 				{
 					return (CipwDoc*)pView->GetDocument();
 				}
@@ -108,4 +107,17 @@ CipwDoc* AfmFindDocument(CString title)
 	}
 
 	return nullptr;
+}
+
+
+int AfmGetId(CipwView* pView)
+{
+	CString title;
+	pView->GetParentFrame()->GetWindowTextW(title);
+	return _ttoi(title.Mid(0, title.Find(_T(" _ "), 0)));
+}
+
+int AfmGetId(CipwDoc* pDoc)
+{
+	return pDoc->GetProcessItem().id;
 }

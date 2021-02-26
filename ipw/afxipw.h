@@ -18,6 +18,9 @@ void AfmGetChildWindowTitles(std::vector<CString>& titles);
 CChildFrame* AfmGetActiveFrame();
 CipwView* AfmGetActiveView();
 CipwDoc* AfmGetActiveDocument();
-CipwDoc* AfmFindDocument(CString title);
+CipwDoc* AfmFindDocument(int id);
+
+int AfmGetId(CipwView* pView);
+int AfmGetId(CipwDoc* pDoc);
 
 #endif // __APX_IPW__
